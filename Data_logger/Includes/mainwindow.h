@@ -17,8 +17,6 @@
 # define MY_DEFINED_DEFAULT_ACTIVE_TEXT2    "font-size: 14px; padding: 0 5px; background: white;   color: blue; selection-background-color: transparent;"
 # define MY_DEFINED_DEFAULT_PASSIVE_TEXT    "font-size: 14px; padding: 0 5px; background: #D3D3D3; color: blue;"
 # define MY_DEFINED_DEFAULT_PASSIVE_TEXT2   "font-size: 14px; padding: 0 5px; background: #D3D3D3; color: gray;"
-# define MY_DEFINED_SLIDER_STYLE            "QSlider::handle:horizontal {background: #0078d4; border: 1px #0078d4; width: 10px; height: 10px; margin: -8px 0; border-radius: 5px; } \
-                                            QSlider::handle:horizontal:hover {background-color: white; border: 1px solid black; }"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }

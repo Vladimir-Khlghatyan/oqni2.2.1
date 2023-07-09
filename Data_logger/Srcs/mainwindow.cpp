@@ -625,8 +625,8 @@ void    MainWindow::buttonSoundAction(void)
     QDialog *windowSound = new QDialog(this);
     windowSound->setModal(true);
 
-    windowSound->setMinimumSize(280, 120);
-    windowSound->setMaximumSize(280, 120);
+    windowSound->setMinimumSize(340, 110);
+    windowSound->setMaximumSize(340, 110);
     windowSound->setWindowTitle("Sound effects volume");
     windowSound->setWindowIcon(QIcon(":/Imgs/oqni.ico"));
     windowSound->setWindowFilePath(":/Imgs/oqni.ico");
@@ -641,17 +641,27 @@ void    MainWindow::buttonSoundAction(void)
     imageLabel->setGeometry(20, 20, 40, 40);
     imageLabel->show();
 
+    QLabel *testLabel = new QLabel(windowSound);
+    testLabel->setText(QString::number((int)(this->_volume * 100)) + "%");
+    testLabel->setStyleSheet("color: #0078d4; font-weight: bold;");
+    testLabel->setGeometry(280, 20, 50, 40);
+    testLabel->show();
+
     QSlider *slider = new QSlider(Qt::Horizontal, windowSound);
     slider->setRange(0, 100);
     slider->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
     slider->setTickInterval(1);
     slider->setValue((int)(this->_volume * 100));
     slider->setGeometry(80, 30, 180, 20);
-    slider->setStyleSheet(MY_DEFINED_SLIDER_STYLE);
+    slider->setStyleSheet("QSlider::groove:horizontal { background-color: #0078d4; height: 2px; }\
+                           QSlider::handle:horizontal {background: #0078d4; border: 1px #0078d4; width: 10px; height: 10px; margin: -8px 0; border-radius: 5px; }\
+                           QSlider::handle:horizontal:hover {background-color: white; border: 1px solid black; }");
     connect(slider, &QSlider::valueChanged, windowSound,
             [=]()
             {
                 this->_volume = (static_cast<double>(slider->value()) / 100);
+                testLabel->setText(QString::number(slider->value()) + "%");
+
                 _soundVolume->setVolume(_volume);
                 _soundSelect->setVolume(_volume);
                 _soundCheck->setVolume(_volume);
@@ -676,7 +686,7 @@ void    MainWindow::buttonSoundAction(void)
             });
 
     QPushButton *OKbutton = new QPushButton("OK", windowSound);
-    OKbutton->setGeometry(185, 80, 75, 25);
+    OKbutton->setGeometry(245, 70, 75, 25);
     OKbutton->setCursor(Qt::PointingHandCursor);
     OKbutton->setStyleSheet("QPushButton {border-radius: 5px; background: solid white;  color: black; border: 1px solid #0078D4; font-size: 10pt;} \
                        QPushButton:hover {border-radius: 5px; background: #e0eef9;      color: black; border: 1px solid #0078D4; font-size: 10pt;}");
@@ -695,6 +705,8 @@ void    MainWindow::buttonSoundAction(void)
     OKbutton = nullptr;
     delete slider;
     slider = nullptr;
+    delete testLabel;
+    testLabel = nullptr;
     delete imageLabel;
     imageLabel = nullptr;
     delete windowSound;
