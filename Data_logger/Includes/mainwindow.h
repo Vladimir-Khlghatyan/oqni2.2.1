@@ -2,6 +2,7 @@
 # define MAINWINDOW_H
 
 # include <QSoundEffect>
+# include <QPainter>
 
 # include "../ui_mainwindow.h"
 # include "comport.hpp"
@@ -62,6 +63,8 @@ class MainWindow : public QMainWindow
         
         QLabel              *_gifLabel;
         QMovie              *_gifMovie;
+        QLabel              *_connectedPortsText;
+        QGroupBox           *_upperLine;
         QGroupBox           *_groupBox;
         QVector<ComPort*>   _comPorts;
         ComPort             *_selectedComPort;

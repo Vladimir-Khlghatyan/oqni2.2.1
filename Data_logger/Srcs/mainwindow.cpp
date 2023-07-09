@@ -11,9 +11,13 @@ MainWindow::MainWindow(QWidget *parent)
     DEBUGGER();
     
     ui->setupUi(this);
+
+    this->_connectedPortsText = new QLabel("connected Serial Ports", this);
+    this->_connectedPortsText->setStyleSheet("color: black; background: transparent");
+    this->_connectedPortsText->setGeometry(130, 30, 220, 30);
     
     this->putWindowOnScreen(700, 616);
-    this->_buttonCheck = this->createButton("Check connected ports", 20, 30, 380, 30, std::bind(&MainWindow::buttonCheckAction, this), this);
+    this->_buttonCheck = this->createButton("Check", 20, 30, 100, 30, std::bind(&MainWindow::buttonCheckAction, this), this);
     this->addLoadingAnimation(this->_buttonCheck, 21, 150, 370, 370);
     this->createGroupBox(20, 70, 380, 515);
     this->createLiftVertical(379, 71, 20, 513);
@@ -57,7 +61,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this->_buttonAbout, &QToolButton::clicked, this, [=](void) {this->buttonAboutAction(); });
     
     // sounds
-    this->_volume = 0.3;
+    this->_volume = 0.2;
     this->_soundSelect = new (QSoundEffect);
     _soundSelect->setSource(QUrl::fromLocalFile(":/Sounds/select.wav"));
     _soundSelect->setVolume(_volume);
@@ -83,6 +87,8 @@ MainWindow::~MainWindow()
     for (QVector<ComPort *>::iterator it = _comPorts.begin(); it < _comPorts.end(); ++it)
         delete *it;
     this->_comPorts.clear();
+    delete _connectedPortsText;
+    _connectedPortsText = nullptr;
     delete _buttonCheck;
     _buttonCheck = nullptr;
     delete _buttonNext;
@@ -101,6 +107,9 @@ MainWindow::~MainWindow()
     _liftVertical = nullptr;
     delete _groupBox;
     _groupBox = nullptr;
+    delete _upperLine;
+    _upperLine = nullptr;
+
 
     delete _soundSelect;
     _soundSelect = nullptr;
@@ -200,10 +209,17 @@ void    MainWindow::createGroupBox(int x, int y, int width, int height)
 {
     DEBUGGER();
 
-    /* ---------------- adding GroupBox ------------------- */
+    // we add this to the top of "_groupBox" as the top border,
+    // because on Вindows the top row is not displayed completely
+    this->_upperLine = new QGroupBox(this);
+    this->_upperLine->setGeometry(x, y, width, 1);
+    this->_upperLine->stackUnder(this->_gifLabel);
+    this->_upperLine->setStyleSheet("border: 1px solid gray;");
+
     this->_groupBox = new QGroupBox("Connected COM ports:", this);
     this->_groupBox->setGeometry(x, y, width, height);
     this->_groupBox->stackUnder(this->_gifLabel);
+    this->_groupBox->stackUnder(this->_upperLine);
     this->_groupBox->setStyleSheet("color: black; border: 1px solid gray; background: #e6e6e6;");
     
     DEBUGGER();
