@@ -27,9 +27,9 @@
         <file>Imgs/soundOFF.png</file>
         <file>Imgs/soundON1.png</file>
         <file>Imgs/soundON2.png</file>
-        <file>Imgs/soundON3.png</file>
         <file>Sounds/about.wav</file>
         <file>Sounds/check.wav</file>
         <file>Sounds/volume.wav</file>
+        <file>Imgs/soundON0.png</file>
     </qresource>
 </RCC>

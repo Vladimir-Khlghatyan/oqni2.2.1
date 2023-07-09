@@ -361,7 +361,7 @@ void    MainWindow::buttonNextAction()
         this->_windowNext->setButtonStart(createButton("Start", 140, 340, 100, 30, nullptr, this->_windowNext));
         this->_windowNext->setButtonStop(createButton("Stop", 250, 340, 100, 30, nullptr, this->_windowNext));
         this->_windowNext->setButtonClose(createButton("Close", 360, 340, 100, 30, nullptr, this->_windowNext));
-		this->_windowNext->exec();
+        this->_windowNext->exec();
     }
     catch (int ret) {    }
     
@@ -633,11 +633,11 @@ void    MainWindow::buttonSoundAction(void)
     windowSound->setStyleSheet("background: #e6e6e6;");
 
     QLabel *imageLabel = new QLabel(windowSound);
+    QPixmap imageON0(":/Imgs/soundON0.png");
     QPixmap imageON1(":/Imgs/soundON1.png");
     QPixmap imageON2(":/Imgs/soundON2.png");
-    QPixmap imageON3(":/Imgs/soundON3.png");
     QPixmap imageOFF(":/Imgs/soundOFF.png");
-    imageLabel->setPixmap(imageON1);
+    imageLabel->setPixmap(imageON0);
     imageLabel->setGeometry(20, 20, 40, 40);
     imageLabel->show();
 
@@ -667,18 +667,19 @@ void    MainWindow::buttonSoundAction(void)
                 _soundCheck->setVolume(_volume);
                 _soundAbout->setVolume(_volume);
 
-                if (slider->value() == 0)
-                {
+                switch (!slider->value() ? -1 : slider->value() / 33) {
+                case -1:
                     imageLabel->setPixmap(imageOFF);
-                }
-                else
-                {
-                    if (slider->value() < 34)
-                        imageLabel->setPixmap(imageON1);
-                    else if (slider->value() < 67)
-                        imageLabel->setPixmap(imageON2);
-                    else
-                        imageLabel->setPixmap(imageON3);
+                    break;
+                case 0:
+                    imageLabel->setPixmap(imageON0);
+                    break;
+                case 1:
+                    imageLabel->setPixmap(imageON1);
+                    break;
+                case 2:
+                    imageLabel->setPixmap(imageON2);
+                    break;
                 }
 
                 if (!_soundVolume->isPlaying())
