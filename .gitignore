@@ -1,0 +1,10 @@
+**.DS_Store
+*.sw[po]
+*.a
+*.o
+a.out
+.vscode/
+build*
+/Recordings/*
+/Recordings/metadata.xlsx
+/Snapshots/*
