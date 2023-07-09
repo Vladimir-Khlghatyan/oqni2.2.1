@@ -86,6 +86,8 @@ class MainWindow : public QMainWindow
         double              _volume;
         QSoundEffect        *_soundSelect;
         QSoundEffect        *_soundVolume;
+        QSoundEffect        *_soundCheck;
+        QSoundEffect        *_soundAbout;
 };
 
 #endif

@@ -23,11 +23,13 @@
         <file>Imgs/timeLimit.png</file>
         <file>Imgs/processing.gif</file>
         <file>Sounds/select.wav</file>
-        <file>Sounds/aboutMusic.wav</file>
         <file>Imgs/sound.png</file>
         <file>Imgs/soundOFF.png</file>
         <file>Imgs/soundON1.png</file>
         <file>Imgs/soundON2.png</file>
         <file>Imgs/soundON3.png</file>
+        <file>Sounds/about.wav</file>
+        <file>Sounds/check.wav</file>
+        <file>Sounds/volume.wav</file>
     </qresource>
 </RCC>

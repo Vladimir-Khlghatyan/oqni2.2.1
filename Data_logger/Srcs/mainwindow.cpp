@@ -56,14 +56,23 @@ MainWindow::MainWindow(QWidget *parent)
     this->_buttonAbout->show();
     connect(this->_buttonAbout, &QToolButton::clicked, this, [=](void) {this->buttonAboutAction(); });
     
-    this->_volume = 0.2;
+    // sounds
+    this->_volume = 0.3;
     this->_soundSelect = new (QSoundEffect);
     _soundSelect->setSource(QUrl::fromLocalFile(":/Sounds/select.wav"));
     _soundSelect->setVolume(_volume);
 
     this->_soundVolume = new (QSoundEffect);
-    _soundVolume->setSource(QUrl::fromLocalFile(":/Sounds/aboutMusic.wav"));
+    _soundVolume->setSource(QUrl::fromLocalFile(":/Sounds/volume.wav"));
     _soundVolume->setVolume(_volume);
+
+    this->_soundCheck = new (QSoundEffect);
+    _soundCheck->setSource(QUrl::fromLocalFile(":/Sounds/check.wav"));
+    _soundCheck->setVolume(_volume);
+
+    this->_soundAbout = new (QSoundEffect);
+    _soundAbout->setSource(QUrl::fromLocalFile(":/Sounds/about.wav"));
+    _soundAbout->setVolume(_volume);
 
     DEBUGGER();
 }
@@ -97,6 +106,10 @@ MainWindow::~MainWindow()
     _soundSelect = nullptr;
     delete _soundVolume;
     _soundVolume = nullptr;
+    delete _soundCheck;
+    _soundCheck = nullptr;
+    delete _soundAbout;
+    _soundAbout = nullptr;
 
     delete ui;
     DEBUGGER();
@@ -240,7 +253,11 @@ void    MainWindow::createLiftVertical(int x, int y, int width, int height)
 void    MainWindow::buttonCheckAction(void)
 {
     DEBUGGER();
-    
+
+    if (_soundCheck->isPlaying())
+        _soundCheck->stop();
+    _soundCheck->play();
+
     /* ----------- show animation and update radiobuttons' list ------------- */
     this->_buttonNext->setEnabled(false);
     this->_buttonNext->setStyleSheet(MY_DEFINED_DEFAULT_PASSIVE_BUTTON);
@@ -637,6 +654,8 @@ void    MainWindow::buttonSoundAction(void)
                 this->_volume = (static_cast<double>(slider->value()) / 100);
                 _soundVolume->setVolume(_volume);
                 _soundSelect->setVolume(_volume);
+                _soundCheck->setVolume(_volume);
+                _soundAbout->setVolume(_volume);
 
                 if (slider->value() == 0)
                 {
@@ -688,7 +707,7 @@ void    MainWindow::buttonAboutAction(void)
 {
     DEBUGGER();
     
-    QString about = "<b>Data logger 2.2</b> (for ESP-32) \
+    QString about = "<b>Data logger 2.2.1</b> (for ESP-32) \
                     <br> <br> This program was created in collaboration \
                     <br> between <b>«Tumo Labs»</b> and <b>«OQNI»</b>. \
                     <br> <br>Authors: \u00A0\u00A0\u00A0\u00A0<b>Volodya Ismailyan \
@@ -702,7 +721,10 @@ void    MainWindow::buttonAboutAction(void)
     msgBox.setIconPixmap(QPixmap(":/Imgs/collaboration.png"));
     msgBox.addButton(QMessageBox::Ok);
     msgBox.setWindowIcon(QIcon(":/Imgs/oqni.ico"));
+
+    _soundAbout->play();
     msgBox.exec();
+    _soundAbout->stop();
     
     DEBUGGER();
 }
