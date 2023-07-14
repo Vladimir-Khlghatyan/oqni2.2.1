@@ -1,7 +1,7 @@
 #include "windownext.hpp"
 #include "debugger.hpp"
 
-WindowNext::WindowNext(MainWindow *parent)
+WindowNext::WindowNext(MainWindow *parent, double volume)
     : QDialog(parent)
 {
     DEBUGGER();
@@ -136,6 +136,10 @@ WindowNext::WindowNext(MainWindow *parent)
 
     this->setParametersDesign();
 
+    this->_soundDefaultButton = new (QSoundEffect);
+    _soundDefaultButton->setSource(QUrl::fromLocalFile(":/Sounds/defaultButton.wav"));
+    _soundDefaultButton->setVolume(volume);
+
     DEBUGGER();
 }
 
@@ -212,6 +216,9 @@ WindowNext::~WindowNext()
     delete _sensorNames_IMU;
     _sensorNames_IMU = nullptr;
 
+    delete _soundDefaultButton;
+    _soundDefaultButton = nullptr;
+
     DEBUGGER();
 }
 
@@ -243,6 +250,7 @@ void    WindowNext::setButtonStart(QPushButton *buttonStart)
         [=](void)
         {
             DEBUGGER();
+            _soundDefaultButton->play();
 
             if (this->_durationTimerValue == 0)
             {
@@ -386,6 +394,7 @@ void		WindowNext::setButtonStop(QPushButton *buttonStop)
             [=](void)
             {
                 DEBUGGER();
+                _soundDefaultButton->play();
 
                 QString msg;
                 _metaDataSavingFailMsg = "<br><b>REASON:</b> the session was terminated (stopped).";
@@ -461,6 +470,8 @@ void		WindowNext::setButtonClose(QPushButton *buttonClose)
             [=](void)
             {
                 DEBUGGER();
+                _soundDefaultButton->play();
+                QThread::usleep(300000); // so that the button sound is heard before the window is closed
 
                 this->_closeEventFlag = true;
                 this->close();
@@ -481,6 +492,7 @@ void		WindowNext::setButtonBrowse(QPushButton *buttonBrowse)
             [=](void)
             {
                 DEBUGGER();
+                _soundDefaultButton->play();
 
                 QFileDialog dialog;
                 QString     selectedDirectoryTmp;

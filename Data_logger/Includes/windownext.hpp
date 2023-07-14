@@ -47,7 +47,7 @@ class MySlider;
 class WindowNext : public QDialog
 {
 	public:
-		WindowNext(MainWindow *parent);
+        WindowNext(MainWindow *parent, double volume);
 		~WindowNext();
         
     public:
@@ -203,6 +203,8 @@ class WindowNext : public QDialog
         
         QString             _metaDataFilePath;
         QString             _metaDataSavingFailMsg;
+
+        QSoundEffect        *_soundDefaultButton;
 };
 
 #endif

@@ -333,6 +333,8 @@ void    MainWindow::buttonCheckAction(void)
                         [=](void)
                         {
                             DEBUGGER();
+                            _soundCheck->stop();
+                            _soundSelect->play();
 
                             this->_buttonNext->setEnabled(true);
                             this->_buttonNext->setStyleSheet(MY_DEFINED_DEFAULT_ACTIVE_BUTTON);
@@ -341,8 +343,6 @@ void    MainWindow::buttonCheckAction(void)
                             if (this->_previewsRadioButton && this->_previewsRadioButton != *it)
                                 this->_previewsRadioButton->getToolButton()->hide();
                             this->_previewsRadioButton = *it;
-
-                            this->_soundSelect->play();
 
                             DEBUGGER();
                         });
@@ -385,7 +385,7 @@ void    MainWindow::buttonNextAction()
 
     try
     {
-		this->_windowNext = new WindowNext(this);
+        this->_windowNext = new WindowNext(this, this->_volume);
 		this->_windowNext->setButtonBrowse(createButton("Browse", 490, 50, 100, 30, nullptr, this->_windowNext));
         this->_windowNext->setButtonStart(createButton("Start", 140, 340, 100, 30, nullptr, this->_windowNext));
         this->_windowNext->setButtonStop(createButton("Stop", 250, 340, 100, 30, nullptr, this->_windowNext));
