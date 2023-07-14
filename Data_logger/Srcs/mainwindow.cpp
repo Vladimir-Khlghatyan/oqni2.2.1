@@ -82,6 +82,10 @@ MainWindow::MainWindow(QWidget *parent)
     _soundDefaultButton->setSource(QUrl::fromLocalFile(":/Sounds/defaultButton.wav"));
     _soundDefaultButton->setVolume(_volume);
 
+    this->_soundTools = new (QSoundEffect);
+    _soundTools->setSource(QUrl::fromLocalFile(":/Sounds/tools.wav"));
+    _soundTools->setVolume(_volume);
+
     DEBUGGER();
 }
 
@@ -125,6 +129,8 @@ MainWindow::~MainWindow()
     _soundAbout = nullptr;
     delete _soundDefaultButton;
     _soundDefaultButton = nullptr;
+    delete _soundTools;
+    _soundTools = nullptr;
 
     delete ui;
     DEBUGGER();
@@ -513,6 +519,7 @@ void    MainWindow::buttonChartAction()
 void    MainWindow::buttonToolAction(ComPort *comPort)
 {
     DEBUGGER();
+    _soundTools->play();
     
     comPort->_windowProperty = new QDialog(this);
     comPort->_windowProperty->setModal(true);
@@ -694,6 +701,7 @@ void    MainWindow::buttonSoundAction(void)
                 _soundCheck->setVolume(_volume);
                 _soundAbout->setVolume(_volume);
                 _soundDefaultButton->setVolume(_volume);
+                _soundTools->setVolume(_volume);
 
                 switch (!slider->value() ? -1 : slider->value() / 33) {
                 case -1:
