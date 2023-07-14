@@ -61,7 +61,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this->_buttonAbout, &QToolButton::clicked, this, [=](void) {this->buttonAboutAction(); });
     
     // sounds
-    this->_volume = 0.2;
+    this->_volume = 0.25;
     this->_soundSelect = new (QSoundEffect);
     _soundSelect->setSource(QUrl::fromLocalFile(":/Sounds/select.wav"));
     _soundSelect->setVolume(_volume);
@@ -77,6 +77,10 @@ MainWindow::MainWindow(QWidget *parent)
     this->_soundAbout = new (QSoundEffect);
     _soundAbout->setSource(QUrl::fromLocalFile(":/Sounds/about.wav"));
     _soundAbout->setVolume(_volume);
+
+    this->_soundDefaultButton = new (QSoundEffect);
+    _soundDefaultButton->setSource(QUrl::fromLocalFile(":/Sounds/defaultButton.wav"));
+    _soundDefaultButton->setVolume(_volume);
 
     DEBUGGER();
 }
@@ -119,6 +123,8 @@ MainWindow::~MainWindow()
     _soundCheck = nullptr;
     delete _soundAbout;
     _soundAbout = nullptr;
+    delete _soundDefaultButton;
+    _soundDefaultButton = nullptr;
 
     delete ui;
     DEBUGGER();
@@ -353,6 +359,7 @@ void    MainWindow::buttonCheckAction(void)
 void    MainWindow::buttonNextAction()
 {
     DEBUGGER();
+    _soundDefaultButton->play();
     
     for (QVector<ComPort *>::iterator it = _comPorts.begin(); it != _comPorts.end(); ++it)
     {
@@ -391,6 +398,7 @@ void    MainWindow::buttonNextAction()
 void    MainWindow::buttonChartAction()
 {
     DEBUGGER();
+    _soundDefaultButton->play();
     
     QString		selectedFile;
     QString		line;
@@ -574,6 +582,7 @@ void    MainWindow::buttonToolAction(ComPort *comPort)
             [=](void)
             {
                 DEBUGGER();
+                _soundDefaultButton->play();
                 comPort->_windowProperty->close();
                 DEBUGGER();
             });
@@ -581,6 +590,7 @@ void    MainWindow::buttonToolAction(ComPort *comPort)
             [=](void)
             {
                 DEBUGGER();
+                _soundDefaultButton->play();
 
                 baudComboBox->setCurrentIndex(7);
                 dataComboBox->setCurrentIndex(3);
@@ -594,6 +604,7 @@ void    MainWindow::buttonToolAction(ComPort *comPort)
             [=](void)
             {
                 DEBUGGER();
+                _soundDefaultButton->play();
 
                 comPort->setBaudRate(baudComboBox->currentText(), this->_baudRateItems);
                 comPort->setDataBits(dataComboBox->currentText(), this->_dataBitsItems);
@@ -682,6 +693,7 @@ void    MainWindow::buttonSoundAction(void)
                 _soundSelect->setVolume(_volume);
                 _soundCheck->setVolume(_volume);
                 _soundAbout->setVolume(_volume);
+                _soundDefaultButton->setVolume(_volume);
 
                 switch (!slider->value() ? -1 : slider->value() / 33) {
                 case -1:
