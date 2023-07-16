@@ -21,6 +21,7 @@
 # include <QtCharts>
 # include <QtEndian>
 # include <QSlider>
+# include <QtConcurrent/QtConcurrent>
 
 # include <set>
 # include <algorithm>
@@ -207,6 +208,7 @@ class WindowNext : public QDialog
         double              _volume;
         QSoundEffect        *_soundDefaultButton;
         QSoundEffect        *_soundTestMode;
+        QSoundEffect        *_soundCheckBox;
 };
 
 #endif

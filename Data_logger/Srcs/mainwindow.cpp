@@ -86,6 +86,10 @@ MainWindow::MainWindow(QWidget *parent)
     _soundTools->setSource(QUrl::fromLocalFile(":/Sounds/tools.wav"));
     _soundTools->setVolume(_volume);
 
+    this->_soundCheckBox = new (QSoundEffect);
+    _soundCheckBox->setSource(QUrl::fromLocalFile(":/Sounds/checkBox.wav"));
+    _soundCheckBox->setVolume(_volume);
+
     DEBUGGER();
 }
 
@@ -131,6 +135,8 @@ MainWindow::~MainWindow()
     _soundDefaultButton = nullptr;
     delete _soundTools;
     _soundTools = nullptr;
+    delete _soundCheckBox;
+    _soundCheckBox = nullptr;
 
     delete ui;
     DEBUGGER();

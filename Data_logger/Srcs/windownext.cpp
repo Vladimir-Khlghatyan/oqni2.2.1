@@ -89,6 +89,11 @@ WindowNext::WindowNext(MainWindow *parent)
     this->_showPic = new QCheckBox("pic", this);
     this->_saveCheckBox = new QCheckBox("save and update MD", this);
     this->_saveCheckBox->setChecked(true);
+    connect(this->_saveCheckBox, &QCheckBox::stateChanged, this,
+            [=](void)
+            {
+                _soundCheckBox->play();
+            });
 
     this->_lightIntensity1 = new QLabel("Light intensity:", this);
     this->_lightIntensity2 = new QLineEdit(this);
@@ -139,6 +144,8 @@ WindowNext::WindowNext(MainWindow *parent)
     //SOUNDS
     this->_volume = parent->_volume;
     this->_soundDefaultButton = parent->_soundDefaultButton;
+    this->_soundCheckBox = parent->_soundCheckBox;
+
     this->_soundTestMode = new (QSoundEffect);
     _soundTestMode->setSource(QUrl::fromLocalFile(":/Sounds/testMode.wav"));
     _soundTestMode->setVolume(_volume);
@@ -219,8 +226,6 @@ WindowNext::~WindowNext()
     delete _sensorNames_IMU;
     _sensorNames_IMU = nullptr;
 
-//    delete _soundDefaultButton;
-//    _soundDefaultButton = nullptr;
     delete _soundTestMode;
     _soundTestMode = nullptr;
 
@@ -863,6 +868,7 @@ void    WindowNext::setParametersDesign(void)
             [=](void)
             {
                 DEBUGGER();
+                _soundCheckBox->play();
 
                 if (this->_buttonStart->isEnabled() == true)
                 {
@@ -937,6 +943,7 @@ void    WindowNext::setParametersDesign(void)
             [=](void)
             {
                 DEBUGGER();
+                _soundCheckBox->play();
 
                 if (this->_buttonStart->isEnabled() == true)
                 {
@@ -1667,6 +1674,7 @@ void    WindowNext::execChartDialog(void)
             [=]()
             {
                 DEBUGGER();
+                _soundCheckBox->play();
                 this->_chartDuration = static_cast<qreal>(this->_sliderHorizontal->value());
             });
 
@@ -1695,10 +1703,11 @@ void    WindowNext::execChartDialog(void)
             break;
         }
         this->_checkBoxChannels[i].setChecked(true);
-        connect(&this->_checkBoxChannels[i], &QCheckBox::clicked, this,
+        connect(&this->_checkBoxChannels[i], &QCheckBox::stateChanged, this,
                 [=]()
                 {
                     DEBUGGER();
+                    _soundCheckBox->play();
 
                     if (this->_checkBoxChannels[i].isChecked() == true)
                         this->_checkBoxChannelsValue[i] = true;
@@ -1729,10 +1738,12 @@ void    WindowNext::execChartDialog(void)
     this->_autoScale->setChecked(true);
     this->_autoScale->setStyleSheet("color: black; font-size: 16px;");
     this->_hBoxLayoutOptions->addWidget(_autoScale);
-    connect(this->_autoScale, &QCheckBox::clicked, this,
+    connect(this->_autoScale, &QCheckBox::stateChanged, this,
             [=]()
             {
                 DEBUGGER();
+                _soundCheckBox->play();
+
                 if (_autoScale->isChecked() == true)
                 {
                     this->_autoScale->setStyleSheet("color: black; font-size: 16px;");
@@ -1766,10 +1777,11 @@ void    WindowNext::execChartDialog(void)
         this->_checkBoxSensors[i].setChecked(i == 3);
         this->_checkBoxSensors[i].setEnabled(i != 3);
         this->_checkBoxSensors[i].setStyleSheet("color: black; font-size: 14px;");
-        connect(&this->_checkBoxSensors[i], &QCheckBox::clicked, this,
+        connect(&this->_checkBoxSensors[i], &QCheckBox::stateChanged, this,
                 [=]()
                 {
                     DEBUGGER();
+                    _soundCheckBox->play();
 
                     // we calculate how many boxes are checked
                     int checkedSum = 0;

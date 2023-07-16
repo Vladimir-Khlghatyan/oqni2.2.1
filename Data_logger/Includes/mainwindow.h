@@ -92,6 +92,7 @@ class MainWindow : public QMainWindow
         QSoundEffect        *_soundAbout;
         QSoundEffect        *_soundDefaultButton;
         QSoundEffect        *_soundTools;
+        QSoundEffect        *_soundCheckBox;
 };
 
 #endif

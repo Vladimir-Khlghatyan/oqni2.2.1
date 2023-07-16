@@ -34,5 +34,6 @@
         <file>Sounds/defaultButton.wav</file>
         <file>Sounds/tools.wav</file>
         <file>Sounds/testMode.wav</file>
+        <file>Sounds/checkBox.wav</file>
     </qresource>
 </RCC>
