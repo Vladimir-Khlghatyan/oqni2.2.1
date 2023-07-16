@@ -84,6 +84,7 @@ class MainWindow : public QMainWindow
         bool				_isRejected;
         QCheckBox			*_filesList;
 
+    public:
         double              _volume;
         QSoundEffect        *_soundSelect;
         QSoundEffect        *_soundVolume;

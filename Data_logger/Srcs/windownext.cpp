@@ -1,7 +1,7 @@
 #include "windownext.hpp"
 #include "debugger.hpp"
 
-WindowNext::WindowNext(MainWindow *parent, double volume)
+WindowNext::WindowNext(MainWindow *parent)
     : QDialog(parent)
 {
     DEBUGGER();
@@ -136,9 +136,9 @@ WindowNext::WindowNext(MainWindow *parent, double volume)
 
     this->setParametersDesign();
 
-    this->_soundDefaultButton = new (QSoundEffect);
-    _soundDefaultButton->setSource(QUrl::fromLocalFile(":/Sounds/defaultButton.wav"));
-    _soundDefaultButton->setVolume(volume);
+    //SOUNDS
+    this->_volume = parent->_volume;
+    this->_soundDefaultButton = parent->_soundDefaultButton;
 
     DEBUGGER();
 }
@@ -216,8 +216,8 @@ WindowNext::~WindowNext()
     delete _sensorNames_IMU;
     _sensorNames_IMU = nullptr;
 
-    delete _soundDefaultButton;
-    _soundDefaultButton = nullptr;
+//    delete _soundDefaultButton;
+//    _soundDefaultButton = nullptr;
 
     DEBUGGER();
 }
@@ -471,7 +471,6 @@ void		WindowNext::setButtonClose(QPushButton *buttonClose)
             {
                 DEBUGGER();
                 _soundDefaultButton->play();
-                QThread::usleep(300000); // so that the button sound is heard before the window is closed
 
                 this->_closeEventFlag = true;
                 this->close();

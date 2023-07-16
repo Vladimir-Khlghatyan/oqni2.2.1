@@ -385,7 +385,7 @@ void    MainWindow::buttonNextAction()
 
     try
     {
-        this->_windowNext = new WindowNext(this, this->_volume);
+        this->_windowNext = new WindowNext(this);
 		this->_windowNext->setButtonBrowse(createButton("Browse", 490, 50, 100, 30, nullptr, this->_windowNext));
         this->_windowNext->setButtonStart(createButton("Start", 140, 340, 100, 30, nullptr, this->_windowNext));
         this->_windowNext->setButtonStop(createButton("Stop", 250, 340, 100, 30, nullptr, this->_windowNext));
