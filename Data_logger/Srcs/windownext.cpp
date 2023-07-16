@@ -139,6 +139,9 @@ WindowNext::WindowNext(MainWindow *parent)
     //SOUNDS
     this->_volume = parent->_volume;
     this->_soundDefaultButton = parent->_soundDefaultButton;
+    this->_soundTestMode = new (QSoundEffect);
+    _soundTestMode->setSource(QUrl::fromLocalFile(":/Sounds/testMode.wav"));
+    _soundTestMode->setVolume(_volume);
 
     DEBUGGER();
 }
@@ -218,6 +221,8 @@ WindowNext::~WindowNext()
 
 //    delete _soundDefaultButton;
 //    _soundDefaultButton = nullptr;
+    delete _soundTestMode;
+    _soundTestMode = nullptr;
 
     DEBUGGER();
 }
@@ -672,6 +677,7 @@ void    WindowNext::setParametersDesign(void)
                         // if duration is set to 0, enable test mode 23:59:59
                         if (text.toInt() == 0)
                         {
+                            this->_soundTestMode->play();
                             this->_durationTimerValue = 24 * 3600;
                             this->_saveCheckBox->setChecked(false);
                             this->_saveCheckBox->setCheckable(false);

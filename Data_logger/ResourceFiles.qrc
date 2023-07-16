@@ -33,5 +33,6 @@
         <file>Imgs/soundON0.png</file>
         <file>Sounds/defaultButton.wav</file>
         <file>Sounds/tools.wav</file>
+        <file>Sounds/testMode.wav</file>
     </qresource>
 </RCC>
