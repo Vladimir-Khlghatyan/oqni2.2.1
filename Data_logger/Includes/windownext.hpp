@@ -207,8 +207,10 @@ class WindowNext : public QDialog
 
         double              _volume;
         QSoundEffect        *_soundDefaultButton;
-        QSoundEffect        *_soundTestMode;
         QSoundEffect        *_soundCheckBox;
+        QSoundEffect        *_soundTestMode;
+        QSoundEffect        *_soundInvalidDuration;
+
 };
 
 #endif

@@ -150,6 +150,10 @@ WindowNext::WindowNext(MainWindow *parent)
     _soundTestMode->setSource(QUrl::fromLocalFile(":/Sounds/testMode.wav"));
     _soundTestMode->setVolume(_volume);
 
+    this->_soundInvalidDuration = new (QSoundEffect);
+    _soundInvalidDuration->setSource(QUrl::fromLocalFile(":/Sounds/invalidDuration.wav"));
+    _soundInvalidDuration->setVolume(_volume);
+
     DEBUGGER();
 }
 
@@ -228,6 +232,8 @@ WindowNext::~WindowNext()
 
     delete _soundTestMode;
     _soundTestMode = nullptr;
+    delete _soundInvalidDuration;
+    _soundInvalidDuration = nullptr;
 
     DEBUGGER();
 }
@@ -661,7 +667,9 @@ void    WindowNext::setParametersDesign(void)
                         hasOnlyDigits = false;
                         this->_durationSec2->setStyleSheet("background-color: red; padding: 0 5px; color: blue;");
                         msgBox.setText(tr("Please enter a numeric value."));
+                        _soundInvalidDuration->play();
                         msgBox.exec();
+                        _soundInvalidDuration->stop();
                         break ;
                     }
                 }
@@ -673,7 +681,9 @@ void    WindowNext::setParametersDesign(void)
                         QString msg = "Duration can't be greater<br>than protocol time (";
                         msg += QString::number(this->_durationMax) + " sec).";
                         msgBox.setText(msg);
+                        _soundInvalidDuration->play();
                         msgBox.exec();
+                        _soundInvalidDuration->stop();
                     }
                     else
                     {

@@ -35,5 +35,6 @@
         <file>Sounds/tools.wav</file>
         <file>Sounds/testMode.wav</file>
         <file>Sounds/checkBox.wav</file>
+        <file>Sounds/invalidDuration.wav</file>
     </qresource>
 </RCC>
