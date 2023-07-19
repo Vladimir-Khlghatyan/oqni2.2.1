@@ -62,33 +62,7 @@ MainWindow::MainWindow(QWidget *parent)
     
     // sounds
     this->_volume = 0.25;
-    this->_soundSelect = new (QSoundEffect);
-    _soundSelect->setSource(QUrl::fromLocalFile(":/Sounds/select.wav"));
-    _soundSelect->setVolume(_volume);
-
-    this->_soundVolume = new (QSoundEffect);
-    _soundVolume->setSource(QUrl::fromLocalFile(":/Sounds/volume.wav"));
-    _soundVolume->setVolume(_volume);
-
-    this->_soundCheck = new (QSoundEffect);
-    _soundCheck->setSource(QUrl::fromLocalFile(":/Sounds/check.wav"));
-    _soundCheck->setVolume(_volume);
-
-    this->_soundAbout = new (QSoundEffect);
-    _soundAbout->setSource(QUrl::fromLocalFile(":/Sounds/about.wav"));
-    _soundAbout->setVolume(_volume);
-
-    this->_soundDefaultButton = new (QSoundEffect);
-    _soundDefaultButton->setSource(QUrl::fromLocalFile(":/Sounds/defaultButton.wav"));
-    _soundDefaultButton->setVolume(_volume);
-
-    this->_soundTools = new (QSoundEffect);
-    _soundTools->setSource(QUrl::fromLocalFile(":/Sounds/tools.wav"));
-    _soundTools->setVolume(_volume);
-
-    this->_soundCheckBox = new (QSoundEffect);
-    _soundCheckBox->setSource(QUrl::fromLocalFile(":/Sounds/checkBox.wav"));
-    _soundCheckBox->setVolume(_volume);
+    this->_sounds = new Sound(this, _volume);
 
     DEBUGGER();
 }
@@ -122,21 +96,8 @@ MainWindow::~MainWindow()
     delete _upperLine;
     _upperLine = nullptr;
 
-
-    delete _soundSelect;
-    _soundSelect = nullptr;
-    delete _soundVolume;
-    _soundVolume = nullptr;
-    delete _soundCheck;
-    _soundCheck = nullptr;
-    delete _soundAbout;
-    _soundAbout = nullptr;
-    delete _soundDefaultButton;
-    _soundDefaultButton = nullptr;
-    delete _soundTools;
-    _soundTools = nullptr;
-    delete _soundCheckBox;
-    _soundCheckBox = nullptr;
+    delete _sounds;
+    _sounds = nullptr;
 
     delete ui;
     DEBUGGER();
@@ -288,9 +249,9 @@ void    MainWindow::buttonCheckAction(void)
 {
     DEBUGGER();
 
-    if (_soundCheck->isPlaying())
-        _soundCheck->stop();
-    _soundCheck->play();
+    if (_sounds->_soundCheck->isPlaying())
+        _sounds->_soundCheck->stop();
+    _sounds->_soundCheck->play();
 
     /* ----------- show animation and update radiobuttons' list ------------- */
     this->_buttonNext->setEnabled(false);
@@ -339,8 +300,8 @@ void    MainWindow::buttonCheckAction(void)
                         [=](void)
                         {
                             DEBUGGER();
-                            _soundCheck->stop();
-                            _soundSelect->play();
+                            _sounds->_soundCheck->stop();
+                            _sounds->_soundSelect->play();
 
                             this->_buttonNext->setEnabled(true);
                             this->_buttonNext->setStyleSheet(MY_DEFINED_DEFAULT_ACTIVE_BUTTON);
@@ -371,7 +332,7 @@ void    MainWindow::buttonCheckAction(void)
 void    MainWindow::buttonNextAction()
 {
     DEBUGGER();
-    _soundDefaultButton->play();
+    _sounds->_soundDefaultButton->play();
     
     for (QVector<ComPort *>::iterator it = _comPorts.begin(); it != _comPorts.end(); ++it)
     {
@@ -410,7 +371,7 @@ void    MainWindow::buttonNextAction()
 void    MainWindow::buttonChartAction()
 {
     DEBUGGER();
-    _soundDefaultButton->play();
+    _sounds->_soundDefaultButton->play();
     
     QString		selectedFile;
     QString		line;
@@ -525,7 +486,7 @@ void    MainWindow::buttonChartAction()
 void    MainWindow::buttonToolAction(ComPort *comPort)
 {
     DEBUGGER();
-    _soundTools->play();
+    _sounds->_soundTools->play();
     
     comPort->_windowProperty = new QDialog(this);
     comPort->_windowProperty->setModal(true);
@@ -595,7 +556,7 @@ void    MainWindow::buttonToolAction(ComPort *comPort)
             [=](void)
             {
                 DEBUGGER();
-                _soundDefaultButton->play();
+                _sounds->_soundDefaultButton->play();
                 comPort->_windowProperty->close();
                 DEBUGGER();
             });
@@ -603,7 +564,7 @@ void    MainWindow::buttonToolAction(ComPort *comPort)
             [=](void)
             {
                 DEBUGGER();
-                _soundDefaultButton->play();
+                _sounds->_soundDefaultButton->play();
 
                 baudComboBox->setCurrentIndex(7);
                 dataComboBox->setCurrentIndex(3);
@@ -617,7 +578,7 @@ void    MainWindow::buttonToolAction(ComPort *comPort)
             [=](void)
             {
                 DEBUGGER();
-                _soundDefaultButton->play();
+                _sounds->_soundDefaultButton->play();
 
                 comPort->setBaudRate(baudComboBox->currentText(), this->_baudRateItems);
                 comPort->setDataBits(dataComboBox->currentText(), this->_dataBitsItems);
@@ -682,7 +643,7 @@ void    MainWindow::buttonSoundAction(void)
     imageLabel->show();
 
     QLabel *testLabel = new QLabel(windowSound);
-    testLabel->setText(QString::number((int)(this->_volume * 100)) + "%");
+    testLabel->setText(QString::number((int)(this->_volume * 100)));
     testLabel->setStyleSheet("color: #0078d4; font-weight: bold;");
     testLabel->setGeometry(280, 20, 50, 40);
     testLabel->show();
@@ -700,14 +661,8 @@ void    MainWindow::buttonSoundAction(void)
             [=]()
             {
                 this->_volume = (static_cast<double>(slider->value()) / 100);
-                testLabel->setText(QString::number(slider->value()) + "%");
-
-                _soundVolume->setVolume(_volume);
-                _soundSelect->setVolume(_volume);
-                _soundCheck->setVolume(_volume);
-                _soundAbout->setVolume(_volume);
-                _soundDefaultButton->setVolume(_volume);
-                _soundTools->setVolume(_volume);
+                testLabel->setText(QString::number(slider->value()));
+                _sounds->setVolume(_volume);
 
                 switch (!slider->value() ? -1 : slider->value() / 33) {
                 case -1:
@@ -724,8 +679,8 @@ void    MainWindow::buttonSoundAction(void)
                     break;
                 }
 
-                if (!_soundVolume->isPlaying())
-                    _soundVolume->play();
+                if (!_sounds->_soundVolume->isPlaying())
+                    _sounds->_soundVolume->play();
             });
 
     QPushButton *OKbutton = new QPushButton("OK", windowSound);
@@ -740,9 +695,9 @@ void    MainWindow::buttonSoundAction(void)
             });
     OKbutton->show();
 
-    this->_soundVolume->play();
+    _sounds->_soundVolume->play();
     windowSound->exec();
-    this->_soundVolume->stop();
+    _sounds->_soundVolume->stop();
 
     delete OKbutton;
     OKbutton = nullptr;
@@ -777,9 +732,9 @@ void    MainWindow::buttonAboutAction(void)
     msgBox.addButton(QMessageBox::Ok);
     msgBox.setWindowIcon(QIcon(":/Imgs/oqni.ico"));
 
-    _soundAbout->play();
+    _sounds->_soundAbout->play();
     msgBox.exec();
-    _soundAbout->stop();
+    _sounds->_soundAbout->stop();
     
     DEBUGGER();
 }

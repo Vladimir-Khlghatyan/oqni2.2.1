@@ -28,6 +28,7 @@ set(PROJECT_SOURCES
 		Includes/windownext.hpp
 		Includes/windowchart.hpp
 		Includes/debugger.hpp
+		Includes/sound.hpp
 		
         Srcs/comport.cpp
         Srcs/main.cpp
@@ -37,6 +38,7 @@ set(PROJECT_SOURCES
 		Srcs/windownext.cpp
 		Srcs/windowchart.cpp
 		Srcs/debugger.cpp
+		Srcs/sound.cpp
 		
         mainwindow.ui
         ResourceFiles.qrc

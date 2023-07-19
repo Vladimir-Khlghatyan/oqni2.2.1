@@ -205,11 +205,7 @@ class WindowNext : public QDialog
         QString             _metaDataFilePath;
         QString             _metaDataSavingFailMsg;
 
-        double              _volume;
-        QSoundEffect        *_soundDefaultButton;
-        QSoundEffect        *_soundCheckBox;
-        QSoundEffect        *_soundTestMode;
-        QSoundEffect        *_soundInvalidDuration;
+        Sound               *_sounds;
 
 };
 

@@ -7,6 +7,7 @@
 # include "../ui_mainwindow.h"
 # include "comport.hpp"
 # include "windowchart.hpp"
+# include "sound.hpp"
 
 # define MY_DEFINED_DEFAULT_ACTIVE_BUTTON   "QPushButton {border-radius: 5px; background: solid white;  color: black; border: 1px solid #0078D4; font-size: 14pt;} \
                                        QPushButton:hover {border-radius: 5px; background: #e0eef9;      color: black; border: 1px solid #0078D4; font-size: 14pt;}"
@@ -86,13 +87,7 @@ class MainWindow : public QMainWindow
 
     public:
         double              _volume;
-        QSoundEffect        *_soundSelect;
-        QSoundEffect        *_soundVolume;
-        QSoundEffect        *_soundCheck;
-        QSoundEffect        *_soundAbout;
-        QSoundEffect        *_soundDefaultButton;
-        QSoundEffect        *_soundTools;
-        QSoundEffect        *_soundCheckBox;
+        Sound               *_sounds;
 };
 
 #endif

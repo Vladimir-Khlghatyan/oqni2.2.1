@@ -92,7 +92,7 @@ WindowNext::WindowNext(MainWindow *parent)
     connect(this->_saveCheckBox, &QCheckBox::stateChanged, this,
             [=](void)
             {
-                _soundCheckBox->play();
+                _sounds->_soundCheckBox->play();
             });
 
     this->_lightIntensity1 = new QLabel("Light intensity:", this);
@@ -141,18 +141,7 @@ WindowNext::WindowNext(MainWindow *parent)
 
     this->setParametersDesign();
 
-    //SOUNDS
-    this->_volume = parent->_volume;
-    this->_soundDefaultButton = parent->_soundDefaultButton;
-    this->_soundCheckBox = parent->_soundCheckBox;
-
-    this->_soundTestMode = new (QSoundEffect);
-    _soundTestMode->setSource(QUrl::fromLocalFile(":/Sounds/testMode.wav"));
-    _soundTestMode->setVolume(_volume);
-
-    this->_soundInvalidDuration = new (QSoundEffect);
-    _soundInvalidDuration->setSource(QUrl::fromLocalFile(":/Sounds/invalidDuration.wav"));
-    _soundInvalidDuration->setVolume(_volume);
+    this->_sounds = parent->_sounds;
 
     DEBUGGER();
 }
@@ -230,11 +219,6 @@ WindowNext::~WindowNext()
     delete _sensorNames_IMU;
     _sensorNames_IMU = nullptr;
 
-    delete _soundTestMode;
-    _soundTestMode = nullptr;
-    delete _soundInvalidDuration;
-    _soundInvalidDuration = nullptr;
-
     DEBUGGER();
 }
 
@@ -266,7 +250,7 @@ void    WindowNext::setButtonStart(QPushButton *buttonStart)
         [=](void)
         {
             DEBUGGER();
-            _soundDefaultButton->play();
+            _sounds->_soundDefaultButton->play();
 
             if (this->_durationTimerValue == 0)
             {
@@ -410,7 +394,7 @@ void		WindowNext::setButtonStop(QPushButton *buttonStop)
             [=](void)
             {
                 DEBUGGER();
-                _soundDefaultButton->play();
+                _sounds->_soundDefaultButton->play();
 
                 QString msg;
                 _metaDataSavingFailMsg = "<br><b>REASON:</b> the session was terminated (stopped).";
@@ -486,7 +470,7 @@ void		WindowNext::setButtonClose(QPushButton *buttonClose)
             [=](void)
             {
                 DEBUGGER();
-                _soundDefaultButton->play();
+                _sounds->_soundDefaultButton->play();
 
                 this->_closeEventFlag = true;
                 this->close();
@@ -507,7 +491,7 @@ void		WindowNext::setButtonBrowse(QPushButton *buttonBrowse)
             [=](void)
             {
                 DEBUGGER();
-                _soundDefaultButton->play();
+                _sounds->_soundDefaultButton->play();
 
                 QFileDialog dialog;
                 QString     selectedDirectoryTmp;
@@ -667,9 +651,9 @@ void    WindowNext::setParametersDesign(void)
                         hasOnlyDigits = false;
                         this->_durationSec2->setStyleSheet("background-color: red; padding: 0 5px; color: blue;");
                         msgBox.setText(tr("Please enter a numeric value."));
-                        _soundInvalidDuration->play();
+                        _sounds->_soundInvalidDuration->play();
                         msgBox.exec();
-                        _soundInvalidDuration->stop();
+                        _sounds->_soundInvalidDuration->stop();
                         break ;
                     }
                 }
@@ -681,9 +665,9 @@ void    WindowNext::setParametersDesign(void)
                         QString msg = "Duration can't be greater<br>than protocol time (";
                         msg += QString::number(this->_durationMax) + " sec).";
                         msgBox.setText(msg);
-                        _soundInvalidDuration->play();
+                        _sounds->_soundInvalidDuration->play();
                         msgBox.exec();
-                        _soundInvalidDuration->stop();
+                        _sounds->_soundInvalidDuration->stop();
                     }
                     else
                     {
@@ -692,7 +676,7 @@ void    WindowNext::setParametersDesign(void)
                         // if duration is set to 0, enable test mode 23:59:59
                         if (text.toInt() == 0)
                         {
-                            this->_soundTestMode->play();
+                            _sounds->_soundTestMode->play();
                             this->_durationTimerValue = 24 * 3600;
                             this->_saveCheckBox->setChecked(false);
                             this->_saveCheckBox->setCheckable(false);
@@ -878,7 +862,7 @@ void    WindowNext::setParametersDesign(void)
             [=](void)
             {
                 DEBUGGER();
-                _soundCheckBox->play();
+                _sounds->_soundCheckBox->play();
 
                 if (this->_buttonStart->isEnabled() == true)
                 {
@@ -953,7 +937,7 @@ void    WindowNext::setParametersDesign(void)
             [=](void)
             {
                 DEBUGGER();
-                _soundCheckBox->play();
+                _sounds->_soundCheckBox->play();
 
                 if (this->_buttonStart->isEnabled() == true)
                 {
@@ -1684,7 +1668,7 @@ void    WindowNext::execChartDialog(void)
             [=]()
             {
                 DEBUGGER();
-                _soundCheckBox->play();
+                _sounds->_soundCheckBox->play();
                 this->_chartDuration = static_cast<qreal>(this->_sliderHorizontal->value());
             });
 
@@ -1717,7 +1701,7 @@ void    WindowNext::execChartDialog(void)
                 [=]()
                 {
                     DEBUGGER();
-                    _soundCheckBox->play();
+                    _sounds->_soundCheckBox->play();
 
                     if (this->_checkBoxChannels[i].isChecked() == true)
                         this->_checkBoxChannelsValue[i] = true;
@@ -1752,7 +1736,7 @@ void    WindowNext::execChartDialog(void)
             [=]()
             {
                 DEBUGGER();
-                _soundCheckBox->play();
+                _sounds->_soundCheckBox->play();
 
                 if (_autoScale->isChecked() == true)
                 {
@@ -1791,7 +1775,7 @@ void    WindowNext::execChartDialog(void)
                 [=]()
                 {
                     DEBUGGER();
-                    _soundCheckBox->play();
+                    _sounds->_soundCheckBox->play();
 
                     // we calculate how many boxes are checked
                     int checkedSum = 0;
