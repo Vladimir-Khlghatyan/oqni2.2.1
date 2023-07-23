@@ -266,8 +266,8 @@ void    MainWindow::buttonCheckAction(void)
         (*it)->getCheckBox()->hide();
         (*it)->getToolButton()->hide();
     }
-    QTimer::singleShot(1000, this->_gifLabel, &QLabel::hide);
-    QTimer::singleShot(1000, this,
+    QTimer::singleShot(1500, this->_gifLabel, &QLabel::hide);
+    QTimer::singleShot(1500, this,
         [=](void)
         {
             for (QVector<ComPort *>::iterator it = _comPorts.begin(); it < _comPorts.end(); ++it)
@@ -419,6 +419,11 @@ void    MainWindow::buttonChartAction()
 		_filesList[i].setChecked(true);
 		_filesList[i].setText(files[i]);
         _filesList[i].setStyleSheet("color: black; font-size: 18px;");
+        connect(&_filesList[i], &QCheckBox::stateChanged, &choosingFiles,
+                [=](void)
+                {
+                    _sounds->_soundCheckBox->play();
+                });
     }
     
     _isRejected = true;
@@ -426,6 +431,7 @@ void    MainWindow::buttonChartAction()
             [&](void)
             {
                 DEBUGGER();
+                _sounds->_soundDefaultButton->play();
 
                 choosingFiles.close();
                 _isRejected = false;

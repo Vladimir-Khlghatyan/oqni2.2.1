@@ -178,6 +178,8 @@ WindowChart::WindowChart(MainWindow *parent, const QString &pathToFiles, \
     
     this->readFromFile();
     this->execChartDialog();
+
+    this->_sounds = parent->_sounds;
     
     DEBUGGER();
 }
@@ -845,6 +847,7 @@ void    WindowChart::execChartDialog(void)
                 [=]()
                 {
                     DEBUGGER();
+                    _sounds->_soundCheckBox->play();
 
                     // we calculate how many boxes are checked
                     int checkedSum = 0;
@@ -983,6 +986,7 @@ void WindowChart::connectStaticChatCheckBox(int i)
             [=]()
             {
                 DEBUGGER();
+                _sounds->_soundCheckBox->play();
 
                 if (this->_checkBoxChannels_OPT[i].isChecked() == true)
                 {

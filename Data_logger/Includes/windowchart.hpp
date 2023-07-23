@@ -11,6 +11,7 @@
 # include <QPointF>
 
 # include <algorithm>
+# include "sound.hpp"
 
 class	MainWindow;
 class	MyChartView;
@@ -72,6 +73,7 @@ class	WindowChart : public QDialog
         QCheckBox       *_checkBoxSensors;
         QLabel          *_chartTitle;
         QLabel          *_sensorNames_IMU;
+        Sound           *_sounds;
 
         char            _numOfSeries_OPT;
         char            _numOfSeries_IMU;
